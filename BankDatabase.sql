@@ -51,6 +51,13 @@ CREATE TABLE IF NOT EXISTS `BankDatabase`.`Customers` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1000  --customer id number starts at 1000 
 
+--create table for zip code with matching cities 
+CREATE TABLE IF NOT EXISTS `BankDatabase`.`ZipCode` (
+  `ZipCode` INT NOT NULL,
+  `City` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ZipCode`))
+ENGINE = InnoDB
+
 --create table for customer address 
 CREATE TABLE IF NOT EXISTS `BankDatabase`.`CustomerAddress` (
   `AdressId` INT NOT NULL AUTO_INCREMENT,
@@ -75,14 +82,6 @@ CREATE TABLE IF NOT EXISTS `BankDatabase`.`CustomerAddress` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 100000  --address id number starts at 100000
-
---create table for zip code with matching cities 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`ZipCode` (
-  `ZipCode` INT NOT NULL,
-  `City` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ZipCode`))
-ENGINE = InnoDB
-
 
 --create table for customer accounts 
 CREATE TABLE IF NOT EXISTS `BankDatabase`.`Accounts` (
