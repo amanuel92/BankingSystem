@@ -4,15 +4,15 @@ Database
 This database will store important information about the bank operation such as employee informations, customer informations, and asset. 
 
 An Interface application for Managers / Employees to:
-- sign up customers
-- hire or terminate employees
-- process transactions
-- analyze performance of the bank 
-- view account information
-- make changes to Customer information
-
+- Add new customers 
+- Add Customer info 
+- Open Accounts (saving or checking)
+- Process transactions (deposits & withdraws) 
+- Analyze Customer Account Activity 
+- Analyze employee perfromance  
+- update Customer/Employee information
 
 An Interface application for Customers to:
-- view account information
-- make changes to personal information
-- make transfers between accounts. 
+- View account information (balance, transactions, etc)
+- Make transfers between accounts
+- Update personal information
