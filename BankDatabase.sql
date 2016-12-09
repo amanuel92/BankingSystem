@@ -1,35 +1,18 @@
---creates tables for managers 
 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`Managers` (
-  `ManagerId` INT NOT NULL AUTO_INCREMENT,
-  `Fname` VARCHAR(45) NOT NULL,
-  `Lname` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ManagerId`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 100 --manager id number starts at 100
-
-
---create table for employees 
-
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`Employees` (
+--creates tables for Employees 
+CREATE TABLE IF NOT EXISTS `BankDB`.`Employees` (
   `EmployeeId` INT NOT NULL AUTO_INCREMENT,
   `Fname` VARCHAR(45) NOT NULL,
   `Lname` VARCHAR(45) NOT NULL,
   `Position` VARCHAR(45) NOT NULL,
   `DateHired` DATE NOT NULL,
-  `HiredBy` INT NOT NULL,
-  PRIMARY KEY (`EmployeeId`),
-  INDEX `HiringManager_idx` (`HiredBy` ASC),
-  CONSTRAINT `HiringManager`
-    FOREIGN KEY (`HiredBy`)
-    REFERENCES `BankDatabase`.`Managers` (`ManagerId`)
-    ON DELETE NO ACTION     
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`EmployeeId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 200  --employee id number starts at 200 (under 800 employees)
+AUTO_INCREMENT = 100 --Employee id number starts at 100
+
 
 --create table for customers 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`Customers` (
+CREATE TABLE IF NOT EXISTS `BankDB`.`Customers` (
   `CustomerId` INT NOT NULL AUTO_INCREMENT,
   `Fname` VARCHAR(45) NOT NULL,
   `Lname` VARCHAR(45) NOT NULL,
@@ -38,28 +21,23 @@ CREATE TABLE IF NOT EXISTS `BankDatabase`.`Customers` (
   `AddedBy` INT NOT NULL,
   PRIMARY KEY (`CustomerId`),
   INDEX `AddedBy_idx` (`AddedBy` ASC),
-  CONSTRAINT `AddedByEmployees`
+  CONSTRAINT `AddedByEmployee`
     FOREIGN KEY (`AddedBy`)
-    REFERENCES `BankDatabase`.`Employees` (`EmployeeId`)   
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `AddedByManager`
-    FOREIGN KEY (`AddedBy`)
-    REFERENCES `BankDatabase`.`Managers` (`ManagerId`)     
+    REFERENCES `BankDB`.`Employees` (`EmployeeId`)     
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 1000  --customer id number starts at 1000 
+AUTO_INCREMENT = 1000;  --customer id number starts at 1000 
 
 --create table for zip code with matching cities 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`ZipCode` (
+CREATE TABLE IF NOT EXISTS `BankDB`.`ZipCode` (
   `ZipCode` INT NOT NULL,
   `City` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ZipCode`))
 ENGINE = InnoDB
 
 --create table for customer address 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`CustomerAddress` (
+CREATE TABLE IF NOT EXISTS `BankDB`.`CustomerAddress` (
   `AdressId` INT NOT NULL AUTO_INCREMENT,
   `CostumerId` INT NOT NULL,
   `StreetAdress` VARCHAR(45) NOT NULL,
@@ -72,19 +50,18 @@ CREATE TABLE IF NOT EXISTS `BankDatabase`.`CustomerAddress` (
   INDEX `Zip_idx` (`Zip` ASC),
   CONSTRAINT `CustomerOfAddress`
     FOREIGN KEY (`CostumerId`)
-    REFERENCES `BankDatabase`.`Customers` (`CustomerId`)  
+    REFERENCES `BankDB`.`Customers` (`CustomerId`)  
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `Zip`
     FOREIGN KEY (`Zip`)
-    REFERENCES `BankDatabase`.`ZipCode` (`ZipCode`)      
+    REFERENCES `BankDB`.`ZipCode` (`ZipCode`)      
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 100000  --address id number starts at 100000
 
---create table for customer accounts 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`Accounts` (
+CREATE TABLE IF NOT EXISTS `BankDB`.`Accounts` (
   `AccountNum` VARCHAR(10) NOT NULL,     					  
   `CustomerId` INT NOT NULL,
   `AccountType` VARCHAR(1) NOT NULL,
@@ -96,23 +73,18 @@ CREATE TABLE IF NOT EXISTS `BankDatabase`.`Accounts` (
   INDEX `AccountOpenedBy_idx` (`CreatedBy` ASC),
   CONSTRAINT `CostumerofAccount`
     FOREIGN KEY (`CustomerId`)
-    REFERENCES `BankDatabase`.`Customers` (`CustomerId`)     
+    REFERENCES `BankDB`.`Customers` (`CustomerId`)     
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `AccountOpenedByEmployee`
+  CONSTRAINT `AccountOpenedByEmployees`
     FOREIGN KEY (`CreatedBy`)
-    REFERENCES `BankDatabase`.`Employees` (`EmployeeId`)     
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `AccountOpenedByManager`
-    FOREIGN KEY (`CreatedBy`)
-    REFERENCES `BankDatabase`.`Managers` (`ManagerId`)      
+    REFERENCES `BankDB`.`Employees` (`EmployeeId`)      
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 
---create table for customer transaction 
-CREATE TABLE IF NOT EXISTS `BankDatabase`.`Transactions` (
+--table for customer transactions (withdraw & deposits)
+CREATE TABLE IF NOT EXISTS `BankDB`.`Transactions` (
   `TransactionId` INT NOT NULL AUTO_INCREMENT,
   `AccountNum` VARCHAR(10) NOT NULL,
   `TransactionDate` DATE NOT NULL,
@@ -125,19 +97,16 @@ CREATE TABLE IF NOT EXISTS `BankDatabase`.`Transactions` (
   INDEX `TransactionHandeledBy_idx` (`HandeledBy` ASC),
   CONSTRAINT `TransactionOnAccount`
     FOREIGN KEY (`AccountNum`)
-    REFERENCES `BankDatabase`.`Accounts` (`AccountNum`)      
+    REFERENCES `BankDB`.`Accounts` (`AccountNum`)      
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `TransactionHandeledBy`
     FOREIGN KEY (`HandeledBy`)
-    REFERENCES `BankDatabase`.`Employees` (`EmployeeId`)     
+    REFERENCES `BankDB`.`Employees` (`EmployeeId`)     
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1000000    --transaction id number starts at 1000000 
-
-
-
 
 
 
