@@ -1,6 +1,6 @@
-# BankingSystem
+# BankDatabase
 
-Database
+
 This database will store important information about the bank operation such as employee informations, customer informations, and asset. 
 
 An Interface application for Managers / Employees to:
